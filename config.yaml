@@ -1,0 +1,85 @@
+do_batch: True # Do batch processing of translation/response generation. Only supported for llm_provider: "together"
+
+# All provider parameters
+synthetic_generation_model_name: "openai/gpt-oss-120b"
+synthetic_generation_max_model_len: 2048
+synthetic_generation_temperature: 1.0
+
+# Together AI parameters
+together_num_proc: 32
+batch_force_retry: False
+
+# vLLM parameters
+synthetic_generation_model_think_start_string: "analysis"
+synthetic_generation_model_think_end_string: "assistantfinal"
+synthetic_generation_tensor_parallel_size: 8
+synthetic_generation_trust_remote_code: True
+synthetic_generation_gpu_memory_utilization: 0.9
+synthetic_generation_max_num_seqs: 64
+
+# Prompt gen parameters
+open_num_general_macrotopics: 20
+open_num_target_macrotopics: 20
+open_num_general_topics: 10
+open_num_target_topics: 10
+open_prompts_per_topic: 3
+
+contextual_num_prompts_per_text: 3
+contextual_qa_weighting: 4
+contextual_num_contexts: 10000
+contextual_first_n_tokens: 1000
+contextual_tokenizer: ibm-granite/granite-4.0-micro
+
+scenario_num_broad_scenarios: 30
+scenario_num_detailed_scenarios: 30
+scenario_prompts_per_topic: 5
+
+prompt_gen_system_prompt_template: |
+    You are a {lang_name} speaking user of an AI assistant and you speak in natural {lang_name}.
+    Your goal is to write a list of prompts in {lang_name}.
+    The prompts should be diverse, practical, and realistic.
+    Be as natural and casual as a {lang_name} speaker would be when speaking to a {lang_name} AI assistant.
+    Do not refer to the assistant directly - be simple where possible.
+    Use colloquialisms and informal or casual {lang_name} where appropriate to make your prompts as natural and realistic as possible.
+    Your output should only consist of a single JSON object within a JSON block (delimited by ```json and ```) which has one key, "prompts", which is an array of the {lang_name} prompts.
+
+prompt_improvement_perc_prompt_to_revise: 0.5
+prompt_improvement_system_prompt_template: |
+    You are a prompt improvement assistant. Given a prompt in {lang_name}, revise it to make it better.
+    Your can do any of the following:
+    * Make the language of the prompt more natural and casual, like how a {lang_name} would actually talk to a helpful assistant.
+    * Add some context to the original prompt. The context might state the importance of the prompt, explain background knowledge, or add other reasonable information.
+    * Change the prompt into a different format or style. For example: imperative statements (i.e. adding stipulations for how or how not to output the response), length requirements for the answer (e.g. answer in a single phrase, answer in k words etc.), requiring output in a certain format.
+    * Elongate prompts that require to elaborate on specific topic or discuss a certain point.
+    * Add other related questions, statements, or instructions.
+    Your output should only consist of a single JSON object within a JSON block (delimited by ```json and ```) which has one key, "improved_prompt", which is a string of the improved prompt written in {lang_name}.
+
+# Response gen parameters
+# This system prompt MUST contain {lang_name} if you want to refer to the language in the prompt (advised)
+response_gen_system_prompt_template: |
+    You are a helpful chatbot assistant that speaks in fluent {lang_name}.
+    Your response should be fully understandable to a {lang_name} speaker.
+    Speak like a native {lang_name} speaker to the user unless prompted otherwise.
+    If you give information, always give only correct information.
+    If you are given instructions, always follow the instructions correctly and fully.
+    Your response should have minimal formatting where possible - avoid overly complex lists, emphasis, or Markdown formatting unless specified by the user.
+    If prompted to output a URL, say that you cannot output URLs directly but you can advise ways to find the correct URL (e.g. by suggesting web search terms).
+    Write your response in as simple and as conversational a tone as possible.
+    Do not include URLs in your output as they may be hallucinated.
+    Finally, your responses should be as short as possible - respond with the least words while answering the user's prompt.
+
+# Translation parameters
+translation_number_rows: 15000
+translation_min_len_coeff: 0.75 # In nearly all cases, we expect the number of tokens to increase when we translate English to another language. For this reason, if a turn of conversation has less than 75% of the number of original tokens, we suspect that it is not a good translation and remove it.
+translation_max_len_coeff: 25 # While token counts usually increase when translating, we set an upper bound to detect cases where the model has generated incorrect data.
+translation_model_name: "openai/gpt-oss-120b"
+translation_model_think_start_string: "analysis"
+translation_model_think_end_string: "assistantfinal"
+translation_tensor_parallel_size: 8
+translation_tensor_max_num_seqs: 64
+translation_trust_remote_code: True
+translation_gpu_memory_utilization: 0.9
+translation_max_model_len: 4096
+translation_max_input_tokens: 2048
+translation_max_output_tokens: 2048
+translation_temperature: 1.0
