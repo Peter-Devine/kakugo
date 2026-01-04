@@ -4,8 +4,8 @@ import re
 import os
 from datasets import Dataset
 import os
-from together import Together
 import time
+import yaml
 
 SYNTHETIC_DATA_FOLDER = "./synthetic_data"
 TRANSLATED_RAW_ENG_FOLDER = "./translated_english"
@@ -24,6 +24,22 @@ def parse_json(json_data):
         print(e)
         print(json_data)
         return None
+
+def read_yaml(yaml_path):
+    with open(yaml_path, 'r') as f:
+        config_data = yaml.safe_load(f)
+    return config_data
+
+# This replaces invalid characters with a '?' or removes them
+# Does this as some scripts such as Tibetan fail to save properly due to 'surrogates not allowed' error.
+def clean_surrogates(val):
+    if isinstance(val, str):
+        return val.encode('utf-8', 'ignore').decode('utf-8')
+    return val
+
+def to_jsonl(df, path):
+    df = df.map(clean_surrogates)
+    df.to_json(path, lines=True, orient="records")
 
 def parse_response_json(response):
     if response is None:
@@ -77,13 +93,22 @@ def get_vllm_responses(llm, sampling_params, system_prompts, prompts, thinking_s
     full_output = [unpack_vllm_response(response_output) for response_output in response_outputs]
     return [parse_reas_resp(x, thinking_start_token, thinking_end_token) for x in full_output]
 
-def get_together_output(together_client, model_name, temperature, messages):
-    outputs = together_client.chat.completions.create(
-        model=model_name,
-        messages=messages,
-        temperature=temperature,
-        stream=False,
-    )
+def get_together_output(together_client, model_name, temperature, messages, max_tokens):
+    try:
+        outputs = together_client.chat.completions.create(
+            model=model_name,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            stream=False,
+        )
+    except Exception as e:
+        print(f"Together call error: {e}")
+        return {
+            "reasoning": None,
+            "response": None
+        }
+    
     choice = outputs.choices[0]
     message = choice.message
     if choice.finish_reason.value != "stop":
@@ -97,13 +122,13 @@ def get_together_output(together_client, model_name, temperature, messages):
             "response": message.content
         }
 
-def get_together_responses(together_client, model_name, temperature, num_proc, system_prompts, prompts):
+def get_together_responses(together_client, model_name, temperature, num_proc, system_prompts, prompts, max_tokens):
     conversations = get_conversations(system_prompts, prompts)
     ds = Dataset.from_dict(
         {"messages": conversations}
     )
     ds = ds.map(
-        lambda x: get_together_output(together_client, model_name, temperature, x["messages"]),
+        lambda x: get_together_output(together_client, model_name, temperature, x["messages"], max_tokens),
         num_proc=num_proc
     )
     return ds.remove_columns(["messages"]).to_list()
@@ -143,7 +168,8 @@ def get_responses(config_data, system_prompts, prompts):
         together_num_proc = config_data.get("together_num_proc", 1)
         model_name = config_data["synthetic_generation_model_name"]
         temperature = config_data["synthetic_generation_temperature"]
-        return get_together_responses(together_client, model_name, temperature, together_num_proc, system_prompts, prompts)
+        max_tokens = config_data["synthetic_generation_max_model_len"]
+        return get_together_responses(together_client, model_name, temperature, together_num_proc, system_prompts, prompts, max_tokens)
 
 def format_batch(model_name, messages, max_tokens, temperature, run_name=""):
     return [
