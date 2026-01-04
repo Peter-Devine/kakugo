@@ -23,6 +23,7 @@ def run_translate_gen(language, config, continue_at_batch_submit):
     translation_number_rows = config["translation_number_rows"]
     translation_max_input_tokens = config["translation_max_input_tokens"]
     do_batch = config["do_batch"]
+    is_together = config["llm_provider"] == "together"
 
     os.makedirs(TRANSLATED_RAW_ENG_FOLDER, exist_ok=True)
     raw_english_path = os.path.join(TRANSLATED_RAW_ENG_FOLDER, f"{language}.json")
@@ -34,7 +35,7 @@ def run_translate_gen(language, config, continue_at_batch_submit):
             num_proc=16
         )
         ds = ds.shuffle().select(range(translation_number_rows))
-        ds = ds.to_json(raw_english_path)
+        ds.to_json(raw_english_path)
 
     role_map = {"human": "user", "gpt": "assistant"}
     ds = ds.map(
@@ -62,7 +63,8 @@ def run_translate_gen(language, config, continue_at_batch_submit):
     system_prompts = [get_system_prompt(language)] * len(prompts)
 
     print(f"Translating {language}")
-    if do_batch:
+    config["synthetic_generation_max_model_len"] = config["translation_max_output_tokens"]
+    if is_together and do_batch:
         outputs = get_batch_responses(config, system_prompts, prompts, f"translate_{language}", continue_at_batch_submit)
         if continue_at_batch_submit:
             return None
