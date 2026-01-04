@@ -1,9 +1,8 @@
 import json
 from tqdm.auto import tqdm
 import os
-from utils.utils import get_responses, parse_response_json
 import pandas as pd
-from utils.utils import filesafe_parse_name, SYNTHETIC_DATA_FOLDER
+from utils.utils import get_responses, parse_response_json, to_jsonl, filesafe_parse_name, SYNTHETIC_DATA_FOLDER
 
 def get_general_seed_topics():
     return [ 
@@ -108,7 +107,7 @@ def generate_prompts(config, topic_list, lang_name, num_prompts, prompt_gen_temp
 
     lang_prompt_folder = f"{SYNTHETIC_DATA_FOLDER}/{filesafe_parse_name(lang_name)}"
     os.makedirs(lang_prompt_folder, exist_ok=True)
-    prompt_df.to_json(f"{lang_prompt_folder}/topic_prompts.jsonl", lines=True, orient="records")
+    to_jsonl(prompt_df, f"{lang_prompt_folder}/topic_prompts.jsonl")
     return prompt_df
 
 def generate_topic_prompts(language, config):

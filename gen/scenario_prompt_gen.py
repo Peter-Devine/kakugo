@@ -2,7 +2,7 @@ import json
 import os
 from utils.utils import get_responses, parse_response_json
 import pandas as pd
-from utils.utils import filesafe_parse_name, SYNTHETIC_DATA_FOLDER
+from utils.utils import filesafe_parse_name, to_jsonl, SYNTHETIC_DATA_FOLDER
 
 #### Prompt functions ####
 
@@ -80,7 +80,7 @@ def generate_prompts(config, scenario_list, n_prompts, prompt_gen_template, lang
 
     lang_prompt_folder = f"{SYNTHETIC_DATA_FOLDER}/{filesafe_parse_name(lang_name)}"
     os.makedirs(lang_prompt_folder, exist_ok=True)
-    prompt_df.to_json(f"{lang_prompt_folder}/scenario_prompts.jsonl", lines=True, orient="records")
+    to_jsonl(prompt_df, f"{lang_prompt_folder}/scenario_prompts.jsonl")
     return prompt_df
 
 def generate_practical_prompts(language, config):

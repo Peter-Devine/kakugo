@@ -3,12 +3,12 @@ from utils.utils import get_responses, parse_response_json
 import pandas as pd
 from datasets import load_dataset
 from utils.lang_codes import lang_script_code_to_name_map
-from utils.utils import filesafe_parse_name, SYNTHETIC_DATA_FOLDER
+from utils.utils import filesafe_parse_name, to_jsonl, SYNTHETIC_DATA_FOLDER
 from transformers import AutoTokenizer
 import os
 import random
 
-name_to_lang_script_code_map = {v: k for k, v in lang_script_code_to_name_map.items()}
+name_to_lang_script_list_code_map = {x: [c for c, n in lang_script_code_to_name_map.items() if n == x] for x in lang_script_code_to_name_map.values()}
 
 #### Prompt functions ####
 
@@ -37,11 +37,15 @@ def generate_contextual_prompts(language, config):
         "classify",
     ] +list(["answer a question about"] * qa_weighting)
 
-    if language not in name_to_lang_script_code_map.keys():
-        print("Not generating any contextual prompts because language is not supported by fineweb-2")
-        return
-
-    ds = load_dataset("HuggingFaceFW/fineweb-2", name_to_lang_script_code_map[language], split="train")
+    supported_codes = name_to_lang_script_list_code_map[language]
+    for c in supported_codes:
+        try:
+            ds = load_dataset("HuggingFaceFW/fineweb-2", c, split="train")
+            break
+        except:
+            print(f"{c} not supported by HuggingFaceFW/fineweb-2")
+            continue
+    
     original_dataset_len = len(ds)
     ds = ds.shuffle().select(range(min(num_contexts, original_dataset_len)))
     texts = ds["text"]
@@ -76,7 +80,7 @@ def generate_contextual_prompts(language, config):
     
     if original_dataset_len > num_contexts:
         prompt_df["prompt"] = prompt_df["prompts"].apply(
-            lambda x: random.choice(x) if isinstance(x, list) else None
+            lambda x: random.choice(x) if isinstance(x, list) and len(x) > 0 else None
         )
     else:
         prompt_df["prompt"] = prompt_df["prompts"]
@@ -87,5 +91,5 @@ def generate_contextual_prompts(language, config):
     
     lang_prompt_folder = f"{SYNTHETIC_DATA_FOLDER}/{filesafe_parse_name(language)}"
     os.makedirs(lang_prompt_folder, exist_ok=True)
-    prompt_df.to_json(f"{lang_prompt_folder}/contextual_prompts.jsonl", lines=True, orient="records")
+    to_jsonl(prompt_df, f"{lang_prompt_folder}/contextual_prompts.jsonl")
     return prompt_df

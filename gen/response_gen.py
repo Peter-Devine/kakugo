@@ -1,4 +1,4 @@
-from utils.utils import get_responses, filesafe_parse_name, get_batch_responses, SYNTHETIC_DATA_FOLDER
+from utils.utils import get_responses, filesafe_parse_name, get_batch_responses, to_jsonl, SYNTHETIC_DATA_FOLDER
 import pandas as pd
 from glob import glob
 import os
@@ -23,7 +23,8 @@ def gen_responses(config, df, lang_name, system_prompt_template, data_name, cont
     final_prompts = temp_df["final_prompt"].tolist()
 
     do_batch = config["do_batch"]
-    if do_batch:
+    is_together = config["llm_provider"] == "together"
+    if is_together and do_batch:
         full_responses = get_batch_responses(config, system_prompts, final_prompts, f"responses_{data_name}", continue_at_batch_submit)
         if continue_at_batch_submit:
             return None
@@ -56,4 +57,4 @@ def run_response_gen(language, config, continue_at_batch_submit):
         df = gen_responses(config, df, language, system_prompt_template, data_name, continue_at_batch_submit, has_context=has_context)
         if continue_at_batch_submit:
             continue
-        df.to_json(path, lines=True, orient="records")
+        to_jsonl(df, path)

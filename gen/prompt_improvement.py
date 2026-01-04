@@ -1,7 +1,7 @@
 from utils.utils import get_responses, parse_response_json
 import pandas as pd
 from glob import glob
-from utils.utils import filesafe_parse_name, SYNTHETIC_DATA_FOLDER
+from utils.utils import filesafe_parse_name, to_jsonl, SYNTHETIC_DATA_FOLDER
 
 #### Prompt functions ####
 
@@ -58,4 +58,4 @@ def run_prompt_revision(language, config):
         has_context = path.split("/")[-1].startswith("contextual_")
         df = pd.read_json(path, lines=True)
         df = revise_prompts(config, df, language, sys_prompt_template, perc_prompt_to_revise, has_context=has_context)
-        df.to_json(path, lines=True, orient="records")
+        to_jsonl(df, path)
