@@ -6,7 +6,7 @@ synthetic_generation_max_model_len: 2048
 synthetic_generation_temperature: 1.0
 
 # Together AI parameters
-together_num_proc: 32
+together_num_proc: 64
 batch_force_retry: False
 
 # vLLM parameters
@@ -79,7 +79,12 @@ translation_tensor_parallel_size: 8
 translation_tensor_max_num_seqs: 64
 translation_trust_remote_code: True
 translation_gpu_memory_utilization: 0.9
-translation_max_model_len: 4096
+translation_max_model_len: 6096
 translation_max_input_tokens: 2048
-translation_max_output_tokens: 2048
+translation_max_output_tokens: 4096
 translation_temperature: 1.0
+
+
+train_model_tokenizer_name: ibm-granite/granite-4.0-micro
+train_model_think_start_string: <think>
+train_model_think_end_string: </think>
