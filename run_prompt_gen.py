@@ -2,16 +2,9 @@ from gen.topic_prompt_gen import generate_topic_prompts
 from gen.scenario_prompt_gen import generate_practical_prompts
 from gen.context_prompt_gen import generate_contextual_prompts
 from gen.prompt_improvement import run_prompt_revision
-from gen.response_gen import run_response_gen
-from translate.translate_data import run_translate_gen
+from utils.utils import read_yaml
 import argparse
 import os
-import yaml
-
-def read_yaml(yaml_path):
-    with open(yaml_path, 'r') as f:
-        config_data = yaml.safe_load(f)
-    return config_data
 
 def main(language, config_data):
 
