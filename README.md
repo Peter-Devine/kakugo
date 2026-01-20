@@ -1,4 +1,7 @@
 # Kakugo
+
+[[Paper]]()    |   [[Models]](https://hf.co/collections/ptrdvn/kakugo-models)      |  [[Datasets]](https://hf.co/collections/ptrdvn/kakugo-datasets)
+
 Distil low resource language knowledge from large to small language models
 
 ## How to generate data
