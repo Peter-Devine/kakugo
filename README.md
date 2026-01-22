@@ -1,8 +1,14 @@
-# Kakugo
+<div align="center">
 
-[[Paper]]()    |   [[Models]](https://hf.co/collections/ptrdvn/kakugo-models)      |  [[Datasets]](https://hf.co/collections/ptrdvn/kakugo-datasets)
+  # Kakugo
 
-Distil low resource language knowledge from large to small language models
+  <img width="300" alt="Globe Image" src="https://github.com/user-attachments/assets/451166a2-af70-4b73-9b37-4c019d9a54b1" />
+
+  <em>Distil low resource language knowledge from large to small language models</em>
+
+</div>
+
+[[Paper]](https://arxiv.org/abs/2601.14051)    |   [[Models]](https://hf.co/collections/ptrdvn/kakugo-models)      |  [[Datasets]](https://hf.co/collections/ptrdvn/kakugo-datasets)
 
 ## How to generate data
 
