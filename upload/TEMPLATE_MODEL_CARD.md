@@ -164,6 +164,8 @@ More details about exactly how we created our data can be found in [our paper](h
 
 # Training
 
+Full details of how this model was created (and how you can train a model in your own chosen language) can be found on our [Github repo](https://github.com/Peter-Devine/kakugo).
+
 To make this model, we fine-tuned [ibm-granite/granite-4.0-micro](https://huggingface.co/ibm-granite/granite-4.0-micro) for 1 epoch on [XXX_DATASET](https://huggingface.co/datasets/XXX_DATASET) using [Llama Factory](https://github.com/hiyouga/LlamaFactory).
 
 <details>

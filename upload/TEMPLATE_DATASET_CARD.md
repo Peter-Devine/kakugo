@@ -28,6 +28,7 @@ For Kakugo in other languages, check out the [model](https://huggingface.co/coll
 ## Creation Methodology
 
 This dataset was created using the automated Kakugo pipeline described in [our paper](https://arxiv.org/abs/2601.14051).
+Full details of how this dataset was created (and how you can make a dataset in your own chosen language) can be found on our [Github repo](https://github.com/Peter-Devine/kakugo).
 
 ### 1. Synthetic Data Generation
 We prompted a teacher model (**GPT-OSS 120B**) to generate diverse prompts in XXX_LANGUAGE_NAME using three strategies:
