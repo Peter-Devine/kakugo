@@ -25,7 +25,7 @@ This dataset contains synthetic conversational data and translated instructions 
 
 ## Creation Methodology
 
-This dataset was created using the automated Kakugo pipeline described in [our paper](XXX_ARCHIV_LINK).
+This dataset was created using the automated Kakugo pipeline described in [our paper](https://arxiv.org/abs/2601.14051).
 
 ### 1. Synthetic Data Generation
 We prompted a teacher model (**GPT-OSS 120B**) to generate diverse prompts in XXX_LANGUAGE_NAME using three strategies:

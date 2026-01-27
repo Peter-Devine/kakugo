@@ -158,7 +158,7 @@ The training data for this model can be found at [XXX_DATASET](https://huggingfa
 This data was created by prompting [openai/gpt-oss-120b](https://huggingface.co/openai/gpt-oss-120b) to generate prompts and responses in XXX_LANGUAGE_NAME.
 We also translate a set of prompts and responses from the [BAAI/Infinity-Instruct](https://huggingface.co/datasets/BAAI/Infinity-Instruct) dataset.
 
-More details about exactly how we created our data can be found in [our paper](XXX_ARCHIV_LINK).
+More details about exactly how we created our data can be found in [our paper](https://arxiv.org/abs/2601.14051).
 
 # Training
 
