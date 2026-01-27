@@ -17,12 +17,16 @@ tags:
 ---
 # Kakugo 3B XXX_LANGUAGE_NAME
 
-[[Paper]](XXX_ARCHIV_LINK) [[Code]](https://github.com/Peter-Devine/kakugo) [[Dataset]](https://huggingface.co/datasets/XXX_DATASET)
+[[Paper]](https://arxiv.org/abs/2601.14051) [[Code]](https://github.com/Peter-Devine/kakugo) [[Dataset]](https://huggingface.co/datasets/XXX_DATASET)
 
-<p align="center">
-  A data distilled model trained specifically for **XXX_LANGUAGE_NAME**.
+<div align="center">
+    <div style="font-size: 80px;font-family: Arial, Helvetica, sans-serif;font-variant: small-caps;color: #000000;font-weight: 700; margin-top:-40px; margin-bottom:-60px; margin-left: -20px" align="center">Kakugo</div>
+
+<div align="center">
   <img src="https://cdn-uploads.huggingface.co/production/uploads/64b63f8ad57e02621dc93c8b/hmRaNkmPAV8rakBOhtgZI.png" alt="Globe Image" width="400"/>
-</p>
+  A data distilled model trained specifically for <strong>XXX_LANGUAGE_NAME</strong>.
+</div>
+</div>
 
 This is **Kakugo 3B XXX_LANGUAGE_NAME**, a small language model (SLM) fine-tuned to interact with the user in **XXX_LANGUAGE_NAME**.
 
@@ -223,3 +227,14 @@ eval_steps: 0.2
 # Credits
 
 This model was trained by [@ptrdvn](https://huggingface.co/ptrdvn)
+
+If you use this model, please cite:
+
+```bibtex
+@article{devine2026kakugo,
+  title={Kakugo: Distillation of Low-Resource Languages into Small Language Models},
+  author={Devine, Peter and Sanni, Mardhiyah and Adilazuarda, Farid and Loizaga, Julieta Gil and Haddow, Barry},
+  journal={arXiv preprint arXiv:2601.14051},
+  year={2026}
+}
+```

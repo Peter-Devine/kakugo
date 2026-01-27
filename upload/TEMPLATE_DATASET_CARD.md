@@ -14,7 +14,7 @@ tags:
 ---
 # Kakugo XXX_LANGUAGE_NAME dataset
 
-[[Paper]](XXX_ARCHIV_LINK) [[Code]](https://github.com/Peter-Devine/kakugo) [[Model]](https://huggingface.co/XXX_MODEL_NAME)
+[[Paper]](https://arxiv.org/abs/2601.14051) [[Code]](https://github.com/Peter-Devine/kakugo) [[Model]](https://huggingface.co/XXX_MODEL_NAME)
 
 <p align="center">
   A synthetically generated conversation dataset for training in XXX_LANGUAGE_NAME.
@@ -52,8 +52,10 @@ This model was trained by [@ptrdvn](https://huggingface.co/ptrdvn)
 If you use this dataset, please cite the Kakugo paper:
 
 ```bibtex
-@article{kakugo2026,
+@article{devine2026kakugo,
   title={Kakugo: Distillation of Low-Resource Languages into Small Language Models},
-    TODO - fill this in
+  author={Devine, Peter and Sanni, Mardhiyah and Adilazuarda, Farid and Loizaga, Julieta Gil and Haddow, Barry},
+  journal={arXiv preprint arXiv:2601.14051},
+  year={2026}
 }
 ```
