@@ -30,6 +30,8 @@ tags:
 
 This is **Kakugo 3B XXX_LANGUAGE_NAME**, a small language model (SLM) fine-tuned to interact with the user in **XXX_LANGUAGE_NAME**.
 
+For Kakugo in other languages, check out the [model](https://huggingface.co/collections/ptrdvn/kakugo-models) and [dataset](https://huggingface.co/collections/ptrdvn/kakugo-datasets) collections.
+
 # How to use
 
 To use this model, you can use your preferred LLM inference package. 

@@ -23,6 +23,8 @@ tags:
 
 This dataset contains synthetic conversational data and translated instructions designed to train Small Language Models (SLMs) for **XXX_LANGUAGE_NAME**. It was generated using the **Kakugo** pipeline, a method for distilling high-quality capabilities from a large teacher model into low-resource language models. The teacher model used to generate this dataset was [openai/gpt-oss-120b](https://huggingface.co/openai/gpt-oss-120b).
 
+For Kakugo in other languages, check out the [model](https://huggingface.co/collections/ptrdvn/kakugo-models) and [dataset](https://huggingface.co/collections/ptrdvn/kakugo-datasets) collections.
+
 ## Creation Methodology
 
 This dataset was created using the automated Kakugo pipeline described in [our paper](https://arxiv.org/abs/2601.14051).
