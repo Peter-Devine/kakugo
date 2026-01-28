@@ -113,3 +113,10 @@ FORCE_TORCHRUN=1 llamafactory-cli train /workspace/train/train_configs/genreas_t
 ```
 
 Then, the final model should be able to be found in `./train/train_outputs`, saved in Huggingface format so you should be able to use it with your favourite inference library, such as [vLLM](https://docs.vllm.ai/en/stable/getting_started/quickstart/), for example.
+
+# How this repo works
+
+Details of the pipeline can be found in our paper, but this diagram summarizes the different components of the pipeline.
+
+<img width="891" height="339" alt="kakugo_diagram" src="https://github.com/user-attachments/assets/2542728e-ad69-4e43-98a6-516218a9f2dc" />
+
